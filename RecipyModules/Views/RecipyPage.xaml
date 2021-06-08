@@ -15,11 +15,11 @@
         <Grid>
             <TreeView Margin="10" Padding="10" ItemsSource="{Binding RecipyTreeItem}">
 
-                <!--<i:Interaction.Triggers>
+                <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <prism:InvokeCommandAction Command="{Binding SelectedTreeItems}" TriggerParameterPath="NewValue"/>
                     </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+                </i:Interaction.Triggers>
                 
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Child}">

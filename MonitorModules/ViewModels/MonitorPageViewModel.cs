@@ -20,18 +20,11 @@ namespace MonitorModules.ViewModels
 {
     public class MonitorPageViewModel : BindableBase
     {
-        private DataTable cyclerTable = new DataTable();
-        public DataTable CyclerTable
-        {
-            get { return cyclerTable; }
-            set {  SetProperty(ref cyclerTable, value); }
-        }
-
         System.Timers.Timer ConnectTimer = new System.Timers.Timer();
 
         public ObservableCollection<ChMoniList> ColumnInfo { get; private set; }
-        public ObservableCollection<Cycler> CyclerObj { get; private set; }
         public ObservableCollection<Chamber> ChamberObj { get; private set; }
+        public ObservableCollection<Cycler> CyclerObj { get; private set; }
 
         // Command
         public DelegateCommand LoadedCommand { get; set; }

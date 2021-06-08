@@ -8,7 +8,7 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding LoadedCommand}" TriggerParameterPath="NewValue"/>
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
