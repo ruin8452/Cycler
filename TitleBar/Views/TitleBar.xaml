@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="Title.Views.TitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:fa="clr-namespace:FontAwesome5.WPF;assembly=FontAwesome5.WPF"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:model="clr-namespace:TitleBar.Models"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             x:Name="CustomBar" MouseDown="System_MouseDown" MouseMove="System_MouseMove">
+
+    <UserControl.Resources>
+        <model:PassConverter x:Key="PassCvt"/>
+        <model:DriveVolumeConverter x:Key="DriveCvt"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisi"/>
+
+        <Style x:Key="BtnNormalBase" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"  BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background" Value="#FF3F3F3F" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FF282828">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="AUTO"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Grid Margin="10,0,0,0" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="White" RadiusY="1.5" RadiusX="1.5"/>
+                <Image Source="/TitleBar;component/Resources/Image/LogoOnly_NoBack.png"/>
+            </Grid>
+            <StackPanel  Margin="5,0" VerticalAlignment="Center">
+                <TextBlock Text="KapJin" FontFamily="/TitleBar;component/Resources/Font/#Handel Gothic" Foreground="White" FontSize="22" HorizontalAlignment="Center"/>
+                <TextBlock Text="Total Power Technology" FontFamily="/TitleBar;component/Resources/Font/#Bahnschrift Light" Foreground="White" FontSize="7" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <Rectangle Height="30" Width="2" Fill="#FF1D1D1D" RadiusY="1" RadiusX="1" Margin="7,0">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="0.5" Color="#FFCACACA" BlurRadius="0" Direction="360"/>
+                </Rectangle.Effect>
+            </Rectangle>
+
+            
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel.Resources>
+
+            </StackPanel.Resources>
+            <StackPanel Margin="5,0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="C:" Foreground="White" FontFamily="NanumGothic" Margin="0,0,5,0" FontSize="20" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <ProgressBar Height="12" Width="100" HorizontalAlignment="Left" 
+                                 Maximum="{Binding MaxVolume, Converter={StaticResource DriveCvt}}"
+                                 Value="{Binding UseVolume, Converter={StaticResource DriveCvt}}" 
+                                 BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FF06B025"/>
+                    <TextBlock Foreground="White" FontFamily="NanumGothic Light" FontSize="10" Margin="0,2,0,0">
+                        <Run Text="{Binding UseVolume, Converter={StaticResource DriveCvt}}"/><Run Text="GB"/>
+                        <Run Text="/"/>
+                        <Run Text="{Binding MaxVolume, Converter={StaticResource DriveCvt}}"/><Run Text="GB"/>
+                        <Run Text="("/><Run Text="{Binding UsePersent}"/><Run Text="%)"/>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <Rectangle Height="30" Width="2" Fill="#FF1D1D1D" RadiusY="1" RadiusX="1" Margin="7,0">
+                <Rectangle.Effect>
+                    <DropShadowEffect ShadowDepth="0.5" Color="#FFCACACA" BlurRadius="0" Direction="360"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            
+            <TextBlock Text="{Binding Time, StringFormat='yyyy.MM.dd HH:mm:ss'}" FontFamily="Digital-7 Mono" Foreground="White" FontSize="20" Margin="10,0" VerticalAlignment="Center"/>
+
+            <Button Style="{StaticResource BtnNormalBase}" Width="40" Height="40" VerticalAlignment="Center" Click="Minimized_Click" >
+                <Rectangle Width="11" Stroke="White" StrokeThickness="0.75"/>
+            </Button>
+
+            <Button Style="{StaticResource BtnNormalBase}" Width="40" Height="40" VerticalAlignment="Center" Click="WinState_Click">
+                <Grid>
+                    <Rectangle x:Name="rectMax" Width="10" Height="10" Stroke="White" StrokeThickness="0.75"/>
+                    <Canvas x:Name="rectMin"  Visibility="Hidden">
+                        <Polyline Points="2.375,2 2.375,0.375 10.625,0.375 10.625,8.625 9,8.625"
+                                    StrokeThickness="0.75" Stroke="White"/>
+                        <Rectangle Width="9" Height="9"
+                                    Stroke="White"
+                                    StrokeThickness="0.75" Margin="0,2,2,0"/>
+                    </Canvas>
+                </Grid>
+            </Button>
+
+            <Button Style="{StaticResource BtnNormalBase}" Width="40" Height="40" Click="Close_Click">
+                <Grid>
+                    <Canvas Width="40" Height="40">
+                        <Line  X1="15" Y1="15"
+                                X2="25" Y2="25"
+                                Stroke="White" StrokeThickness="0.75"/>
+                        <Line X1="15" Y1="25"
+                                X2="25" Y2="15"
+                                Stroke="White" StrokeThickness="0.75"/>
+                    </Canvas>
+                </Grid>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

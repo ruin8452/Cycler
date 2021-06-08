@@ -1,0 +1,188 @@
+﻿<Window x:Class="CyclerGUI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa5="clr-namespace:FontAwesome5.WPF;assembly=FontAwesome5.WPF"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Height="800" Width="1600">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Window.Resources>
+        <Style x:Key="SideMenuTog" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource TogBtnBaseNormal}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style x:Key="SideMenuRadio" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource RadioBaseToggle}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style x:Key="SideMenuIcon" TargetType="{x:Type fa5:ImageAwesome}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 윈도우 상태창 -->
+        <ContentControl prism:RegionManager.RegionName="TitleView"/>
+
+        <!-- 메인 윈도우 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="AUTO"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="NavPanel" Background="#FF282828" Width="60">
+                <StackPanel>
+                    <Border Height="25"/>
+                    <!-- 메뉴 확장 버튼 -->
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleButton Style="{StaticResource SideMenuTog}">
+
+                            <!-- 트리거 -->
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="NavPanel"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         Duration="0:0:0.2"
+                                                         From="60" To="200"/>
+                                            <ColorAnimation Storyboard.TargetName="MenuTog"
+                                                        Storyboard.TargetProperty="(fa5:ImageAwesome.Foreground).(SolidColorBrush.Color)"
+                                                        BeginTime="0:0:0"
+                                                        Duration="0:0:0.2"
+                                                        From="White" To="DodgerBlue"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="NavPanel"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         Duration="0:0:0.2"
+                                                         From="200" To="60"/>
+                                            <ColorAnimation Storyboard.TargetName="MenuTog"
+                                                        Storyboard.TargetProperty="(fa5:ImageAwesome.Foreground).(SolidColorBrush.Color)"
+                                                        BeginTime="0:0:0"
+                                                        Duration="0:0:0.2"
+                                                        From="DodgerBlue" To="White"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuTog"
+                                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                                             BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="0" To="5">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuTog"
+                                                             Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                                             BeginTime="0:0:0"
+                                                             Duration="0:0:0.2"
+                                                             From="5" To="0"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                            
+                            <fa5:ImageAwesome x:Name="MenuTog" Icon="Solid_List" Style="{StaticResource SideMenuIcon}">
+                                <fa5:ImageAwesome.Effect>
+                                    <DropShadowEffect x:Name="dropShadowEffect" BlurRadius="0" Color="White" ShadowDepth="0" Direction="0"/>
+                                </fa5:ImageAwesome.Effect>
+                            </fa5:ImageAwesome>
+                        </ToggleButton>
+
+                        <Border Width="25"/>
+                        
+                        <!-- 메뉴 텍스트 -->
+                        <TextBlock Text="M E N U" Foreground="White" FontSize="25" FontFamily="NanumGothic Light" VerticalAlignment="Center">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="White" Direction="0" ShadowDepth="0"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Border Height="35"/>
+
+                    <ListView x:Name="MainMenu" Background="Transparent" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <prism:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=MainMenu, Path=SelectedIndex}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        
+                        <ListViewItem Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Height="50">
+                                <fa5:ImageAwesome Icon="Solid_Desktop" Style="{StaticResource SideMenuIcon}"/>
+                                <Border Width="25"/>
+                                <TextBlock Text="Monitoring" Foreground="White" FontSize="20" FontFamily="NanumGothic Light" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Height="50">
+                                <fa5:ImageAwesome Icon="Regular_Edit"  Style="{StaticResource SideMenuIcon}"/>
+                                <Border Width="25"/>
+                                <TextBlock Text="Edit Recipy" Foreground="White" FontSize="20" FontFamily="NanumGothic Light" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Height="50">
+                                <fa5:ImageAwesome Icon="Regular_ChartBar"  Style="{StaticResource SideMenuIcon}"/>
+                                <Border Width="25"/>
+                                <TextBlock Text="Chart" Foreground="White" FontSize="20" FontFamily="NanumGothic Light" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Height="50">
+                                <fa5:ImageAwesome Icon="Solid_Cogs"  Style="{StaticResource SideMenuIcon}"/>
+                                <Border Width="25"/>
+                                <TextBlock Text="Setting" Foreground="White" FontSize="20" FontFamily="NanumGothic Light" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+
+            <ContentControl prism:RegionManager.RegionName="MainView" Grid.Column="1"/>
+        </Grid>
+    </Grid>
+</Window>
