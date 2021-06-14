@@ -116,7 +116,7 @@
                             <fa5:ImageAwesome Icon="Solid_FastForward"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="초기화"/>
+                    <MenuItem Header="초기화"  Command="{Binding RecipyRun}"/>
                     <Separator />
                     <MenuItem Header="작업 완료" IsEnabled="{Binding IsConnect}">
                         <MenuItem.Icon>

@@ -29,6 +29,8 @@ namespace MonitorModules.ViewModels
         // Command
         public DelegateCommand LoadedCommand { get; set; }
 
+        public DelegateCommand RecipyRun { get; set; }
+
         public MonitorPageViewModel()
         {
             // 열 정보 세팅
@@ -75,6 +77,7 @@ namespace MonitorModules.ViewModels
             //ConnectTimer.Start();
 
             LoadedCommand = new DelegateCommand(OnLoaded);
+            RecipyRun = new DelegateCommand(Run);
         }
 
         private void AutoConnecter(object sender, System.Timers.ElapsedEventArgs e)
@@ -89,6 +92,11 @@ namespace MonitorModules.ViewModels
         private void OnLoaded()
         {
             Connector();
+        }
+
+        private void Run()
+        {
+
         }
 
         private async void Connector()

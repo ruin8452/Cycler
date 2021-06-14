@@ -4,7 +4,28 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:fa5="clr-namespace:FontAwesome5.WPF;assembly=FontAwesome5.WPF"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:local="clr-namespace:RecipyModules.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <local:RecipyPageViewModel x:Key="vm" />
+        <x:Array x:Key="TypeList" Type="sys:String" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>CYCLE</sys:String>
+            <sys:String>CHARGE</sys:String>
+            <sys:String>DISCHARGE</sys:String>
+            <sys:String>REST</sys:String>
+            <sys:String>OCV</sys:String>
+            <sys:String>PATTERN</sys:String>
+            <sys:String>LOOP</sys:String>
+            <sys:String>END</sys:String>
+        </x:Array>
+        <x:Array x:Key="ModeList" Type="sys:String" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>CC/CV</sys:String>
+            <sys:String>CC</sys:String>
+            <sys:String>CP</sys:String>
+            <sys:String>CR</sys:String>
+        </x:Array>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -13,7 +34,82 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <TreeView Margin="10" Padding="10" ItemsSource="{Binding RecipyTreeItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--레시피 정보-->
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="공정명"/>
+                    <Border Width="150" BorderBrush="Red" BorderThickness="1">
+                        <TextBlock Text="asdsasd" HorizontalAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+                
+                <Border Height="5"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="스케줄명"/>
+                    <Border Width="150" BorderBrush="Red" BorderThickness="1">
+                        <TextBlock Text="asdsasd" HorizontalAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+                
+                <Border Height="5"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="수정일"/>
+                    <Border Width="150" BorderBrush="Red" BorderThickness="1">
+                        <TextBlock Text="asdsasd" HorizontalAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+
+                <Border Height="15"/>
+                
+                <!--레시피 관리-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Content="추가" Grid.Column="0"/>
+                    <Button Content="삭제" Grid.Column="1"/>
+                    <Button Content="복사" Grid.Column="2"/>
+                    <Button Content="수정" Grid.Column="3"/>
+                </Grid>
+                
+                <!--레시피 반출 반입-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="레시피 반출" Grid.Column="0"/>
+                    <Button Content="레시피 반입" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+            
+            <TreeView Margin="5" Padding="5" ItemsSource="{Binding RecipyTreeItem}" Grid.Row="1">
+                <TreeView.Resources>
+                    <Style x:Key="Icons" TargetType="{x:Type fa5:ImageAwesome}">
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="Width" Value="20"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="Folder">
+                                <Setter Property="Icon" Value="Regular_Folder"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="File">
+                                <Setter Property="Icon" Value="Regular_File"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.Resources>
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
@@ -24,15 +120,95 @@
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Child}">
                         <StackPanel Orientation="Horizontal">
+                            <fa5:ImageAwesome Foreground="Black" Style="{StaticResource Icons}"/>
                             <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
         </Grid>
-        
-        <Border Background="Transparent" Grid.Column="1">
-            <TextBlock Foreground="Red" Text="sadwdsdas"/>
-        </Border>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <!-- 전체 안전조건 설정창 -->
+                <TextBlock Text="전체 안전 조건"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="최대전압[V]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+
+                    <TextBlock Text="최소전압[V]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+
+                    <TextBlock Text="최대용량[Ah]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+
+                    <TextBlock Text="최대전류[A]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+
+                    <TextBlock Text="최소전류[A]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+
+                    <TextBlock Text="최대온도[℃]"/>
+                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+                </StackPanel>
+
+                <!-- 레시피 작성 관리-->
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="스텝추가" Command="{Binding RecipyStepAdd}"/>
+                    <Button Content="스텝삭제"/>
+                    <Button Content="데이터 검사"/>
+                    <Button Content="PNE 레시피"/>
+                    <Button Content="데이터 저장"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False" ItemsSource="{Binding RecipyTable}" SelectionMode="Single" >
+                    <DataGrid.Resources>
+                        <ContextMenu x:Key="GridItemContext" DataContext="{StaticResource vm}">
+                            <MenuItem Header="종료"/>
+                            <Separator/>
+                            <MenuItem Header="스텝 추가" Command="{Binding RecipyStepAdd}"/>
+                            <MenuItem Header="스텝 삭제"/>
+                            <MenuItem Header="작업 취소"/>
+                            <Separator/>
+                            <MenuItem Header="스텝 복사"/>
+                            <MenuItem Header="스텝 붙여넣기"/>
+                            <MenuItem Header="스텝 추가 붙여넣기"/>
+                            <Separator/>
+                            <MenuItem Header="데이터 저장"/>
+                        </ContextMenu>
+                    </DataGrid.Resources>
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Step"  Binding="{Binding Step, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridComboBoxColumn Header="Type" ItemsSource="{StaticResource TypeList}" SelectedItemBinding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridComboBoxColumn Header="Mode" ItemsSource="{StaticResource ModeList}" SelectedItemBinding="{Binding Mode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Volt[V]" Binding="{Binding Volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Curr[A]" Binding="{Binding Curr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Power[W]" Binding="{Binding Power, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Reg[Ω]" Binding="{Binding Reg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Temp[℃]" Binding="{Binding Temp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridCheckBoxColumn Header="온도 시작대기 미사용"  Binding="{Binding TempWait, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="종료조건" Binding="{Binding EndCondi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="안전조건" Binding="{Binding SaftyCondi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="저장조건" Binding="{Binding SaveCondi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="설명" Binding="{Binding Explan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ContextMenu" Value="{StaticResource GridItemContext}"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+                </DataGrid>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
