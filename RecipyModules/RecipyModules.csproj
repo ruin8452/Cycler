@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Models\DirectoryItemType.cs" />
     <Compile Include="Models\RecipyItem.cs" />
+    <Compile Include="Models\RecipyStepData.cs" />
     <Compile Include="RecipyModule.cs" />
     <Compile Include="ViewModels\RecipyPageViewModel.cs" />
     <Compile Include="Views\RecipyPage.xaml.cs">

@@ -22,13 +22,20 @@ namespace RecipyModules.ViewModels
             set { SetProperty(ref recipyTreeItem, value); }
         }
 
-        //private DataTable recipyTable = new DataTable();
-        //public DataTable RecipyTable
-        //{
-        //    get { return recipyTable; }
-        //    set { SetProperty(ref recipyTable, value); }
-        //}
-        public DataTable RecipyTable { get; set; } = new DataTable();
+
+        public ObservableCollection<RecipyStepData> recipyStepes = new ObservableCollection<RecipyStepData>();
+        public ObservableCollection<RecipyStepData> RecipyStepes
+        {
+            get { return recipyStepes; }
+            set { SetProperty(ref recipyStepes, value); }
+        }
+
+        private DataTable recipyTable = new DataTable();
+        public DataTable RecipyTable
+        {
+            get { return recipyTable; }
+            set {  SetProperty(ref recipyTable, value); }
+        }
 
         public DelegateCommand<object> SelectedTreeItems { get; set; }
 
@@ -42,6 +49,9 @@ namespace RecipyModules.ViewModels
 
             object[] bbb = new object[] { 1, 1, "CYCLE", "CC", 5, 5, 5, 5, 5, true, "sss", "eee", "qqq", "bbb" };
             RecipyTable = TableManager.RowAdd(RecipyTable, 0, bbb);
+
+            RecipyStepes.Add(new RecipyStepData { Step=1, Cycle=1, Type="CYCLE", Mode="CC", Volt=5, Curr=6, Power=5, Reg=5, Temp=5, 
+                 TempWait=true, EndCondi="sss", SaftyCondi = "eee", SaveCondi = "qqq", Explan="bbb" }); ;
 
             SelectedTreeItems = new DelegateCommand<object>(ChangeSelection);
 
@@ -108,6 +118,24 @@ namespace RecipyModules.ViewModels
         {
             object[] bbb = new object[] { 1, 1, "CYCLE", "CC", 5, 5, 5, 5, 5, true, "sss", "eee", "qqq", "bbb" };
             RecipyTable = TableManager.RowAdd(RecipyTable, 1, bbb);
+
+            //RecipyStepes.Add(new RecipyStepData
+            //{
+            //    Step = 1,
+            //    Cycle = 1,
+            //    Type = "CYCLE",
+            //    Mode = "CC",
+            //    Volt = 5,
+            //    Curr = 6,
+            //    Power = 7,
+            //    Reg = 5,
+            //    Temp = 5,
+            //    TempWait = true,
+            //    EndCondi = "sss",
+            //    SaftyCondi = "eee",
+            //    SaveCondi = "qqq",
+            //    Explan = "bbb"
+            //});
         }
     }
 }

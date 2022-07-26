@@ -5,10 +5,25 @@
              xmlns:fa5="clr-namespace:FontAwesome5.WPF;assembly=FontAwesome5.WPF"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:RecipyModules.ViewModels"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             x:Name="ab">
 
     <UserControl.Resources>
         <local:RecipyPageViewModel x:Key="vm" />
+
+        <ContextMenu x:Key="GridItemContext">
+            <MenuItem Header="종료"/>
+            <Separator/>
+            <MenuItem Header="스텝 추가" Command="{Binding RecipyStepAdd}"/>
+            <MenuItem Header="스텝 삭제"/>
+            <MenuItem Header="작업 취소"/>
+            <Separator/>
+            <MenuItem Header="스텝 복사"/>
+            <MenuItem Header="스텝 붙여넣기"/>
+            <MenuItem Header="스텝 추가 붙여넣기"/>
+            <Separator/>
+            <MenuItem Header="데이터 저장"/>
+        </ContextMenu>
         <x:Array x:Key="TypeList" Type="sys:String" xmlns:sys="clr-namespace:System;assembly=mscorlib">
             <sys:String>CYCLE</sys:String>
             <sys:String>CHARGE</sys:String>
@@ -142,7 +157,7 @@
                     <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
 
                     <TextBlock Text="최소전압[V]"/>
-                    <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
+                    <TextBox Text="6.000" Width="50" HorizontalContentAlignment="Right"/>
 
                     <TextBlock Text="최대용량[Ah]"/>
                     <TextBox Text="5.000" Width="50" HorizontalContentAlignment="Right"/>
@@ -168,23 +183,23 @@
             </StackPanel>
 
             <Grid Grid.Row="1">
-                <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False" ItemsSource="{Binding RecipyTable}" SelectionMode="Single" >
-                    <DataGrid.Resources>
-                        <ContextMenu x:Key="GridItemContext" DataContext="{StaticResource vm}">
-                            <MenuItem Header="종료"/>
-                            <Separator/>
-                            <MenuItem Header="스텝 추가" Command="{Binding RecipyStepAdd}"/>
-                            <MenuItem Header="스텝 삭제"/>
-                            <MenuItem Header="작업 취소"/>
-                            <Separator/>
-                            <MenuItem Header="스텝 복사"/>
-                            <MenuItem Header="스텝 붙여넣기"/>
-                            <MenuItem Header="스텝 추가 붙여넣기"/>
-                            <Separator/>
-                            <MenuItem Header="데이터 저장"/>
-                        </ContextMenu>
-                    </DataGrid.Resources>
-                    
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="종료"/>
+                        <Separator/>
+                        <MenuItem Header="스텝 추가" Command="{Binding RecipyStepAdd}"/>
+                        <MenuItem Header="스텝 삭제"/>
+                        <MenuItem Header="작업 취소"/>
+                        <Separator/>
+                        <MenuItem Header="스텝 복사"/>
+                        <MenuItem Header="스텝 붙여넣기"/>
+                        <MenuItem Header="스텝 추가 붙여넣기"/>
+                        <Separator/>
+                        <MenuItem Header="데이터 저장"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False" ItemsSource="{Binding RecipyTable}" SelectionMode="Single">
+
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Step"  Binding="{Binding Step, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -202,11 +217,11 @@
                         <DataGridTextColumn Header="설명" Binding="{Binding Explan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </DataGrid.Columns>
 
-                    <DataGrid.CellStyle>
+                    <!--<DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="ContextMenu" Value="{StaticResource GridItemContext}"/>
                         </Style>
-                    </DataGrid.CellStyle>
+                    </DataGrid.CellStyle>-->
                 </DataGrid>
             </Grid>
         </Grid>
